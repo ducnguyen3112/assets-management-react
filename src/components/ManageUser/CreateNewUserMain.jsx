@@ -9,11 +9,19 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    margin-top: -150px;
+`
+
+const Title = styled.div`
+    display: flex;
+    width: 100%;
+    margin-left: 60%;
 `
 
 const H2 = styled.h2`
     color: var(--color-primary);
     margin-bottom: 25px;
+    font-size: 1.3rem;
 `
 
 const Form = styled.div`
@@ -26,38 +34,37 @@ const FormTitle = styled.div`
 
 `
 const FormTitleItem = styled.div`
-width: 200px;
-height: 50px;
-font-size: 1.2rem;
-display: flex;
-justify-content: flex-start;
-align-items: center;
+    min-width: 100px;
+    height: 50px;
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 
 `
 const FormContent = styled.div`
 
 `
 const FormContentItem = styled.div`
-
-font-size: 1.2rem;
-height: auto;
-
-display: flex;
-justify-content: flex-start;
-align-items: center;
-flex-direction: column;
+    font-size: 1.2rem;
+    height: auto;
+    min-width: 300px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
 `
 
 const FormContentItemCheckbox = styled.div`
-display: flex;
-width: 220px;
-height: 40px;
-margin: 5px 20px;
-padding: 0px 10px;
-justify-content: center;
-align-items: center;
-flex-direction: row;
-font-size: 1.2rem;
+    display: flex;
+    width: 220px;
+    height: 40px;
+    margin: 5px 0px;
+    padding: 0px 0px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    font-size: 1.2rem;
 `
 
 
@@ -66,7 +73,7 @@ const Button = styled.div`
     margin-top: 30px;
     width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-end;
     flex-direction: row;
 `
 
@@ -74,40 +81,28 @@ const ButtonContainer = styled.div`
     position: relative;
     float: right;
     margin: 0 22px 22px 0;
-    &::after {
-        content: "";
-        border: 2px solid black;
-        position: absolute;
-        top: 5px;
-        left: 5px;
-        right: 20px;
-        background-color: transperent;
-        width: 95%;
-        height: 95%;
-        z-index: -1;
-    }
 `
 
 const ButtonClick = styled.button`
+    min-width: 80px;
     padding: 10px;
-    border: 2px solid black;
-    background-color: black;
-    color: white;
+    border: 2px solid #c0c3c7;
+    background-color: #fff;
+    color: #c0c3c7;
     cursor: pointer;
     font-weight: 500;
+    border-radius: 5px;
     &:hover {
         background-color: var(--color-primary);
+        border: 2px solid var(--color-primary);
+        color: #fff;
     }
-    &:active {
-        background-color: var(--color-primary);
-        transform: translate(5px, 5px);
-        transition: transform 0.25s;
-    }
+
 `
 
 
 const InputText = styled.input`
-    width: 220px;
+    min-width: 300px;
     height: 40px;
     margin: 5px 20px;
     outline: none;
@@ -126,7 +121,7 @@ const InputText = styled.input`
 
 `
 const InputDate = styled.input`
-    width: 220px;
+    min-width: 300px;
     height: 40px;
     margin: 5px 20px;
     outline: none;
@@ -144,16 +139,16 @@ const InputDate = styled.input`
     }
 `
 const InputRadio = styled.input`
-
-padding: 0px 10px;
+    padding: 0px 10px;
 `
 
 const InputRadioSpan = styled.span`
-padding: 0px 10px;
+    font-size: 1.1rem;
+    padding: 0px 10px;
 `
 
 const Select = styled.select`
-width: 220px;
+    min-width: 300px;
     height: 40px;
     margin: 5px 20px;
     border: 1px solid #333;
@@ -211,7 +206,7 @@ const CreateNewUserMain = () => {
                 const userInfo = JSON.parse(localStorage.getItem('user_info'));
                 const staffCode = userInfo.id;
                 const getLocationAdminAdmin = await axios.get(`http://localhost:8080/admin/api/location/${staffCode}`
-                ,{headers: {'Authorization': 'Bearer ' + window.localStorage.getItem('accessToken')}});
+                    , { headers: { 'Authorization': 'Bearer ' + window.localStorage.getItem('accessToken') } });
                 setLocationName(getLocationAdminAdmin.data.name);
             } catch (err) {
                 console.log(err);
@@ -275,7 +270,7 @@ const CreateNewUserMain = () => {
             return;
         }
 
-        if(roleName === "ADMIN") {
+        if (roleName === "ADMIN") {
             const createUserRes = axios.post("http://localhost:8080/admin/api/create", {
                 firstName: firstName,
                 lastName: lastName,
@@ -284,13 +279,13 @@ const CreateNewUserMain = () => {
                 locationName: locationNameSelect,
                 gender: gender,
                 roleName: roleName
-            },{headers: {'Authorization': 'Bearer ' + window.localStorage.getItem('accessToken')}})
-            .then(() => {
-                navigate("/manage-user");
-            })
+            }, { headers: { 'Authorization': 'Bearer ' + window.localStorage.getItem('accessToken') } })
+                .then(() => {
+                    navigate("/manage-user");
+                })
         }
-        
-        if(roleName === "STAFF") {
+
+        if (roleName === "STAFF") {
             const createUserRes = axios.post("http://localhost:8080/admin/api/create", {
                 firstName: firstName,
                 lastName: lastName,
@@ -299,16 +294,18 @@ const CreateNewUserMain = () => {
                 locationName: locationName,
                 gender: gender,
                 roleName: roleName
-            },{headers: {'Authorization': 'Bearer ' + window.localStorage.getItem('accessToken')}})
-            .then(() => {
-                navigate("/manage-user");
-            })
+            }, { headers: { 'Authorization': 'Bearer ' + window.localStorage.getItem('accessToken') } })
+                .then(() => {
+                    navigate("/manage-user");
+                })
         }
     }
 
     return (
         <Container>
-            <H2>Create New User</H2>
+            <Title>
+                <H2>Create New User</H2>
+            </Title>
             <Form>
                 <FormTitle>
                     <FormTitleItem>First Name</FormTitleItem>
@@ -344,13 +341,13 @@ const CreateNewUserMain = () => {
                         {birthDateError && <Error>User is under 18. Please select a different date</Error>}
                     </FormContentItem>
                     <FormContentItemCheckbox>
+                        <Label id='createUser_genderFalse'>
+                            <InputRadio type="radio" name="genderUser" checked value={false} onChange={(e) => { setGender(e.target.value) }} />
+                            <InputRadioSpan>Female</InputRadioSpan>
+                        </Label>
                         <Label id='createUser_genderTrue'>
                             <InputRadio type="radio" name="genderUser" value={true} onChange={(e) => { setGender(e.target.value) }} />
                             <InputRadioSpan>Male</InputRadioSpan>
-                        </Label>
-                        <Label id='createUser_genderFalse'>
-                            <InputRadio type="radio" name="genderUser" value={false} onChange={(e) => { setGender(e.target.value) }} />
-                            <InputRadioSpan>Female</InputRadioSpan>
                         </Label>
                     </FormContentItemCheckbox>
                     <FormContentItem>

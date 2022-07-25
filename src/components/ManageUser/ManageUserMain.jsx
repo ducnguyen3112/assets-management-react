@@ -2,12 +2,6 @@ import styled from "styled-components";
 import { Link, useNavigate } from 'react-router-dom';
 import "../../css/main.css";
 import { useEffect, useRef, useState } from "react";
-// <<<<<<< Updated upstream
-// import { ReplayOutlined, CloseOutlined, CheckOutlined, CreateOutlined, FilterAltOutlined, SearchOutlined, ArrowDropDownOutlined, ArrowDropUpOutlined } from "@mui/icons-material";
-// import axios from "axios";
-// import Modal from "./Modal";
-// import Toast from "./Toast";
-// =======
 import ReactPaginate from 'react-paginate';
 import { ReplayOutlined, CloseOutlined, CheckOutlined, CreateOutlined, FilterAltOutlined, SearchOutlined, ArrowDropDownOutlined, ArrowDropUpOutlined, South } from "@mui/icons-material";
 import Modal from "./Modal";
@@ -19,7 +13,7 @@ import './css/pagination.css'
 
 
 const Container = styled.div`
-    margin-top: 1.4rem;
+    margin-top: 100px;
 `
 
 // Recent Orders
@@ -35,14 +29,9 @@ const H2 = styled.h2`
 const Table = styled.table`
     background: var(--color-white);
     width: 100%;
-    border-radius: var(--card-border-radius);
     padding: var(--card-padding);
-    text-align: center;
-    box-shadow: var(--box-shadow);
+    text-align: left;
     transition: all 300ms ease;
-    &:hover {
-        box-shadow: none;
-    }
 `
 
 const Thead = styled.thead`
@@ -50,16 +39,10 @@ const Thead = styled.thead`
 `
 
 const Tr = styled.tr`
-    &:last-child td {
-        border: none;
-    }
+
     &:hover {
         background: var(--color-light);
     }
-`
-
-const Th = styled.th`
-
 `
 
 const Tbody = styled.tbody`
@@ -69,6 +52,7 @@ const Tbody = styled.tbody`
 const Td = styled.td`
     height: 2.8rem;
     border-bottom: 1px solid var(--color-light);
+    color: #65676a;
 `
 
 const A = styled.a`
@@ -119,10 +103,10 @@ const ButtonFix = styled.button`
 `
 
 const ButtonDelete = styled.button`
-    width: 40px;
+    width: 30px;
     height: 30px;
     border: 2px solid var(--color-danger);
-    border-radius: var(--border-radius-2);
+    border-radius: 100%;
     color: var(--color-danger);
     background: var(--color-white);
     padding:0px;
@@ -194,19 +178,16 @@ const AddContainer = styled.div`
 `
 
 const Item = styled.div`
-    width: 200px;
+    width: 170px;
     height: 30px;
-    background: var(--color-white);
+    background: var(--color-primary);
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: 1.4rem var(--card-padding);
-    border-radius: var(--border-radius-3);
+    padding: 1.2rem var(--card-padding);
+    border-radius: 5px;
     box-shadow: var(--box-shadow);
     transition: all 300ms ease;
-    &:hover {
-        box-shadow: none;
-    }
     &.add-product {
         background-color: transparent;
         border: 2px solid var(--color-primary);
@@ -227,10 +208,17 @@ const Item = styled.div`
     }
 `
 
+const Th = styled.th`
+
+    border-bottom: 1px solid #34383c;
+    min-width: 100px;
+    color: #34383c;
+`
+
 const ThContainer = styled.div`
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 `
 
 const ThSpan = styled.span`
@@ -443,7 +431,6 @@ const ManageUserMain = ({ reRenderData, setReRenderData }) => {
 
     const searchingHandler = (e) => {
         document.getElementById('all').selected = true;
-        setRoleName('All');
         let textSearch = ''
         setPageNo(0)
 
@@ -469,9 +456,6 @@ const ManageUserMain = ({ reRenderData, setReRenderData }) => {
                 <FilterContainer>
                     <Filter>
                         <Select id="ManageUser_Select" name="gioitinhthucung" onChange={(e) => handleFilters(e)}>
-                            <Option disabled>
-                                Types
-                            </Option>
                             <Option value="All" id="all">All</Option>
                             <Option value="Admin" id='admin'>Admin</Option>
                             <Option value="Staff" id='staff'>Staff</Option>
@@ -566,8 +550,8 @@ const ManageUserMain = ({ reRenderData, setReRenderData }) => {
                                 </ThSortIcon>
                             </ThContainer>
                         </Th>
-                        <Th></Th>
-                        <Th></Th>
+                        {/* <Th></Th>
+                        <Th></Th> */}
                     </Tr >
                 </Thead >
                 <Tbody>
@@ -577,21 +561,21 @@ const ManageUserMain = ({ reRenderData, setReRenderData }) => {
                             <Tr id={user.staffCode}  key={user.staffCode}>
                                 <Td onClick={() => openModal({ type: "detailUser", user: user })} >{user.staffCode}</Td>
                                 <Td onClick={() => openModal({ type: "detailUser", user: user })} >{user.firstName + ' ' + user.lastName}</Td>
-                                <Td onClick={() => openModal({ type: "detailUser", user: user })} >{user.username}</Td>
+                                <Td onClick={() => openModal({ type: "detailUser", user: user })}>{user.username}</Td>
                                 <Td onClick={() => openModal({ type: "detailUser", user: user })} >
                                     {DateFormatterService.dateFormat(user.joinedDate)}
                                 </Td>
-                                <Td onClick={() => openModal({ type: "detailUser", user: user })} key={user.staffCode}>
+                                <Td onClick={() => openModal({ type: "detailUser", user: user })}>
                                     {user.roleName || 'N/A'}
                                 </Td>
-                                <Td className="warning">
+                                <Td className="warning" style={{border: "none"}}>
                                     <ButtonFix
                                         onClick={() => { navigate("/edit-user", { state: { staffCode: user.staffCode, firstName: user.firstName, lastName: user.lastName, birthDate: user.birthDate, joinedDate: user.joinedDate, gender: user.gender, roleName: user.roleName } }) }}
                                     >
                                         <CreateOutlined />
                                     </ButtonFix>
                                 </Td>
-                                <Td className="danger">
+                                <Td className="danger" style={{border: "none"}}>
                                     <ButtonDelete>
                                         <CloseOutlined />
                                     </ButtonDelete>

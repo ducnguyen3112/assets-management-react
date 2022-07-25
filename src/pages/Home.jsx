@@ -12,7 +12,7 @@ const Container = styled.div`
     width: 96%;
     margin: auto;
     gap: 1.8rem;
-    grid-template-columns: 14rem auto;
+    grid-template-columns: 20rem auto;
 `
 
 const Home = () => {

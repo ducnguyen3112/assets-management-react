@@ -8,17 +8,19 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
     background-color: var(--color-primary);
+    padding: 12px 0px;
 `
 
 const NavbarLeft = styled.h3`
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    width: 200px;
+    min-width: 200px;
     height: 50px;
     color: var(--color-white);
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+    padding-left: 30px;
 `
 
 const NavbarRight = styled.h3`
@@ -89,26 +91,10 @@ const LiItem = styled.li`
     margin: 20px 0px;
     color: #333;
     padding-left: 20px;
-    border-bottom: 2px solid var(--color-primary);
+    cursor: pointer;
     &:hover {
-        background-color: #f5f5f5;
-        margin-left: 10px;
-        width: 190px;
-        transition: all 0.5s ease;
-        cursor: pointer;
-        &::after{
-            display: block;
-        }
-    }
-    &::after {
-        content: "";
-        display: none;
-        position: absolute;
-        top: 0px;
-        left: -10px;
-        width: 10px;
-        height: 30px;
         background-color: var(--color-primary);
+        color: white;
     }
 `
 
@@ -120,6 +106,7 @@ const ItemInfo = styled.div`
 const Img = styled.img`
     width: 3rem;
     height: 3rem;
+    margin-right: 20px;
 `;
 const SelectIcon = styled.div`
     width: 3rem;
@@ -159,10 +146,11 @@ const Navbar = (props) => {
         <Container>
             {
                 props.pageName ?
-                    <NavbarLeft>{props.pageName}</NavbarLeft>
+                    <NavbarLeft>{props.action ? props.pageName + props.action : props.pageName}</NavbarLeft>
                     :
                     <NavbarLeft>
                         <Img src="https://itviec.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBMXgzRXc9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--9747b4e82941b47df75157048a404fc195fd1a40/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBPZ2wzWldKd09oSnlaWE5wZW1WZmRHOWZabWwwV3dkcEFhb3ciLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--a364054a300021d6ece7f71365132a9777e89a21/logo.jpg" />
+                        Online Asset Management
                     </NavbarLeft>
             }
             {props.dropDown?(

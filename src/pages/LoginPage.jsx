@@ -46,7 +46,8 @@ const Form = styled.form`
     width: 100%;
     height: 100%;
     border: 2px solid #333;
-    border-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
     padding: 20px 20px 10px 90px;
 `
 
@@ -70,27 +71,6 @@ const Input = styled.input`
     }
 `
 
-// const Button = styled.button`
-//     cursor: not-allowed;
-//     width: 220px;
-//     height: 40px;
-//     margin: 10px 0px;
-//     border: none;
-//     outline: none;
-//     border-radius: 20px;
-//     box-shadow: 12px 12px 30px rgba(0, 0, 0, 0.1);
-//     background-color: var(--color-primary);
-//     color: #ffffff;
-//     font-size: 1.1rem;
-//     &:active {
-//         transform: scale(1.05);
-//     }
-//     &:hover {
-//         background-color: rgb(207, 60, 60);
-//         transition: all ease 0.3s;
-//     }
-// `
-
 const Label = styled.label`
 display: flex;
 width: 100%;
@@ -100,7 +80,7 @@ justify-content: space-between;
 `
 
 const Title = styled.div`
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -157,7 +137,7 @@ const LoginPage = () => {
                     <H2>Welcome to Online Asset Management</H2>
                     <Form name="form-login">
                         <Label>
-                            <Title>Username:</Title>
+                            <Title>Username<span style={{color: "red"}}> *</span></Title>
                             <Input id="usernameLogin" type="text"
                                    onChange={(e) => {
                                        setUsername(e.currentTarget.value)
@@ -166,7 +146,7 @@ const LoginPage = () => {
                             />
                         </Label>
                         <Label>
-                            <Title>Password:</Title>
+                            <Title>Password<span style={{color: "red"}}> *</span></Title>
                             <Input id="passwordLogin" type="password"
                                    onChange={(e) => {
                                        setPassword(e.currentTarget.value)
@@ -176,7 +156,7 @@ const LoginPage = () => {
                         </Label>
                         <p className={"text-danger mt-2 fs-6 d-lg-none" + (isLoginFail ? 'd-lg-none' : '')}>Username
                             or password is incorrect. Please try again</p>
-                        <button id="btnLogin" type="button" className={"btn btn-login" +
+                        <button style={{fontSize: "1.1rem", marginTop: "10px"}} id="btnLogin" type="button" className={"btn btn-login" +
                             " btn-danger" +
                             " btn-lg " + (isUsernameAndPasswordNotEmpty() ? '' : 'disabled')}
                                 onClick={(e) => handleLogin(e)}>

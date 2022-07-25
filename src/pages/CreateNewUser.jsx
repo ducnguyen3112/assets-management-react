@@ -10,13 +10,13 @@ const Container = styled.div`
     width: 96%;
     margin: auto;
     gap: 1.8rem;
-    grid-template-columns: 14rem auto;
+    grid-template-columns: 18rem auto;
 `
 
 const CreateNewUser = () => {
     return (
         <>
-            <Navbar pageName="Manage User" />
+            <Navbar pageName="Manage User " action="> Create New User" dropDown={true} />
             <Container>
                 <Aside active="manageUser" />
                 <CreateNewUserMain/>

@@ -11,14 +11,14 @@ const Container = styled.div`
     width: 96%;
     margin: auto;
     gap: 1.8rem;
-    grid-template-columns: 14rem auto;
+    grid-template-columns: 20rem auto;
 `
 
 const EditUser = () => {
     const location = useLocation();
     return (
         <>
-            <Navbar pageName="Manage User" />
+            <Navbar pageName="Manage User " action="> Edit User" dropDown={true} />
             <Container>
                 <Aside active="manageUser" />
                 <EditUserMain data={location.state}/>

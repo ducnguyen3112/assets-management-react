@@ -13,6 +13,7 @@ import "../css/main.css";
 import {Link} from "react-router-dom";
 
 const Container = styled.aside`
+    margin-top: 30px;
     height: 100vh;
 `;
 const Top = styled.div`
@@ -35,7 +36,8 @@ const Img = styled.img`
 
 const H2 = styled.h2`
     color: var(--color-primary);
-    font-size: 1.4rem;
+    font-size: 1.3rem;
+    min-width: 16rem;
 `;
 
 const Close = styled.div`
@@ -59,30 +61,20 @@ const IconSpan = styled.span`
 
 const LinkStyled = styled(Link)`
     display: flex;
-    color: var(--color-info-dark);
-    margin-left: 2rem;
+    color: #22262a;
+    padding: 1.5rem;
     gap: 1rem;
     align-items: center;
     position: relative;
     height: 3.7rem;
     transition: all 300ms ease;
+    background-color: #eff1f5;
+    margin-bottom: 3px;
     &.active {
-        background: var(--color-light);
-        color: var(--color-primary);
-        margin-left: 0;
-        ${IconSpan} {
-            color: var(--color-primary);
-            margin-left: calc(1rem - 3px);
-        }
-        &:before {
-            content: "";
-            width: 6px;
-            height: 100%;
-            background: var(--color-primary);
-        }
+        background: var(--color-primary);
+        color: var(--color-white);
     }
     &:hover {
-        color: var(--color-primary);
         cursor: pointer;
         ${IconSpan} {
             margin-left: 1rem;
@@ -91,7 +83,7 @@ const LinkStyled = styled(Link)`
 `;
 
 const H3 = styled.h3`
-    font-size: 0.87rem;
+    font-size: 1.3rem;
 `;
 
 const Aside = (props) => {
@@ -184,9 +176,9 @@ const Aside = (props) => {
 
                 <LinkStyled to={"/"} className={isHomeActive ? "active" : null}
                             onClick={handleClickHome}>
-                    <IconSpan>
+                    {/* <IconSpan>
                         <HomeOutlined style={{ fontSize: "1.6rem", transition: "all 300ms ease" }} />
-                    </IconSpan>
+                    </IconSpan> */}
                     <H3>Home</H3>
                 </LinkStyled>
                 {props.isUser ?
@@ -195,56 +187,56 @@ const Aside = (props) => {
                             <LinkStyled to={"/manage-user"}
                                         className={isManageUserActive ? "active" : null}
                                         onClick={handleClickManageUser}>
-                                <IconSpan>
+                                {/* <IconSpan>
                                     <PersonOutlineOutlined style={{
                                         fontSize: "1.6rem",
                                         transition: "all 300ms ease"
                                     }}/>
-                                </IconSpan>
+                                </IconSpan> */}
                                 <H3>Manage User</H3>
                             </LinkStyled>
                             <LinkStyled to={"/manage-asset"}
                                         className={isManageAssetActive ? "active" : null}
                                         onClick={handleClickManageAsset}>
-                                <IconSpan>
+                                {/* <IconSpan>
                                     <WebAssetOutlined style={{
                                         fontSize: "1.6rem",
                                         transition: "all 300ms ease"
                                     }}/>
-                                </IconSpan>
+                                </IconSpan> */}
                                 <H3>Manage Asset</H3>
                             </LinkStyled>
                             <LinkStyled to={"/manage-assignment"}
                                         className={isManageAssignmentActive ? "active" : null}
                                         onClick={handleClickManageAssignment}>
-                                <IconSpan>
+                                {/* <IconSpan>
                                     <AssignmentIndOutlined style={{
                                         fontSize: "1.6rem",
                                         transition: "all 300ms ease"
                                     }}/>
-                                </IconSpan>
+                                </IconSpan> */}
                                 <H3>Manage Assignment</H3>
                             </LinkStyled>
                             <LinkStyled to={"/request-for-returning"}
                                         className={isRequestForReturningIsActive ? "active" : null}
                                         onClick={handleClickRequestForReturning}>
-                                <IconSpan>
+                                {/* <IconSpan>
                                     <AssignmentReturnOutlined style={{
                                         fontSize: "1.6rem",
                                         transition: "all 300ms ease"
                                     }}/>
-                                </IconSpan>
+                                </IconSpan> */}
                                 <H3>Request for Returning</H3>
                             </LinkStyled>
                             <LinkStyled to={"/report"}
                                         className={isReportActive ? "active" : null}
                                         onClick={handleClickReport}>
-                                <IconSpan>
+                                {/* <IconSpan>
                                     <ReportGmailerrorredOutlined style={{
                                         fontSize: "1.6rem",
                                         transition: "all 300ms ease"
                                     }}/>
-                                </IconSpan>
+                                </IconSpan> */}
                                 <H3>Report</H3>
                             </LinkStyled>
                         </div>

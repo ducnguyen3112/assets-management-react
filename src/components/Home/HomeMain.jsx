@@ -7,7 +7,7 @@ import Modal from "./Modal";
 import Toast from "./Toast";
 
 const Container = styled.div`
-    margin-top: 1.4rem;
+    margin-top: 50px;
 `
 
 // Recent Orders
@@ -150,7 +150,7 @@ const HomeMain = ({ reRenderData, setReRenderData }) => {
     return (
         <Container>
             <RecentOrders>
-                <H2>Manage Assignment</H2>
+                <H2>My Assignment</H2>
                 <Table>
                     <Thead>
                         <Tr>

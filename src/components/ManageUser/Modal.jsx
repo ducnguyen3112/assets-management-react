@@ -40,18 +40,18 @@ const ModalWrapper = styled.div`
     --growth-from: 0.7;
     --growth-to: 1;
     animation: growth linear 0.1s;
-        border: 1px solid #333;
+        border: 2px solid #333;
 `
 
 const ModalContent = styled.div`
     display: flex;
     width: 100%;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     line-height: 1.8;
     color: #141414;
-    margin: 20px 0;
+    margin: 20px 0px 20px 150px;
 
 
     p {
@@ -69,8 +69,6 @@ const ModalDisableContent = styled.div`
     line-height: 1.8;
     color: #141414;
     margin: 20px 0;
-
-
     p {
         font-size: 1.2rem;
         margin: 20px 20px 0px 20px;
@@ -94,11 +92,12 @@ const H2 = styled.h2`
     justify-content: center;
     margin-bottom: 0.8rem;
     color: var(--color-primary);
-    border-bottom: 1px solid #333;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom: 2px solid #333;
     width: 100%;
-    height: 100px;
+    height: 80px;
     margin: 0;
-    border-radius: 10px;
     background-color: #eff1f5;
 `
 
@@ -108,6 +107,7 @@ const DetailTitle = styled.div`
 const DetailTitleItem = styled.div`
 font-size: 1.1rem;
 margin-bottom: 10px;
+color: #8f9194;
 `
 const DetailContent = styled.div`
 margin-left: 50px;
@@ -116,6 +116,7 @@ margin-left: 50px;
 const DetailContentItem = styled.div`
 font-size: 1.1rem;
 margin-bottom: 10px;
+color: #8f9194;
 `
 
 const ButtonContainer = styled.div`

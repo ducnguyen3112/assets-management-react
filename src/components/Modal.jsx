@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import {CloseOutlined} from "@mui/icons-material";
-import {useCallback, useEffect, useRef, useState} from "react";
+import { CloseOutlined, InvertColorsOff } from "@mui/icons-material";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "../css/main.css";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import LoginService from "../service/LoginService";
 import axios from "axios";
 
@@ -14,7 +14,7 @@ const Background = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-
+    z-index: 100;
 
     top: 0;
     right: 0;
@@ -40,7 +40,7 @@ const ModalWrapper = styled.div`
     --growth-from: 0.7;
     --growth-to: 1;
     animation: growth linear 0.1s;
-        border: 1px solid #333;
+        border: 2px solid #333;
 `
 
 const ModalImg = styled.img`
@@ -78,10 +78,11 @@ const CloseModalButton = styled.span`
 `
 
 const Button = styled.div`
-    margin-top: 30px;
+    margin-top: 10px;
+    margin-right: 40px;
     width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-end;
     flex-direction: row;
 `
 
@@ -141,35 +142,23 @@ const ButtonContainer = styled.div`
     position: relative;
     float: right;
     margin: 0 22px 22px 0;
-    &::after {
-        content: "";
-        border: 2px solid black;
-        position: absolute;
-        top: 5px;
-        left: 5px;
-        right: 20px;
-        background-color: transperent;
-        width: 95%;
-        height: 95%;
-        z-index: -1;
-    }
 `
 
 const ButtonClick = styled.button`
+    min-width: 80px;
     padding: 10px;
-    border: 2px solid black;
-    background-color: black;
-    color: white;
+    border: 2px solid #868e95;
+    background-color: #fff;
+    color: #868e95;
     cursor: pointer;
     font-weight: 500;
+    border-radius: 5px;
     &:hover {
         background-color: var(--color-primary);
+        border: 2px solid var(--color-primary);
+        color: #fff;
     }
-    &:active {
-        background-color: var(--color-primary);
-        transform: translate(5px, 5px);
-        transition: transform 0.25s;
-    }
+ 
 `
 
 const FormImg = styled.img`
@@ -184,11 +173,12 @@ const H2 = styled.h2`
   justify-content: center;
   margin-bottom: 0.8rem;
   color: var(--color-primary);
-  border-bottom: 1px solid #333;
+  border-bottom: 2px solid #333;
   width: 100%;
   height: 60px;
   margin: 0;
-  border-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
   background-color: #eff1f5;
 `;
 
@@ -226,11 +216,12 @@ const Label = styled.label`
     display: flex;
     width: 100%;
     justify-content: space-between;
+    margin-bottom: 10px;
 
 `
 
 const Title = styled.div`
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -241,9 +232,10 @@ const Error = styled.span`
     color: red;
 `
 
-const Modal = ({showModal, setShowModal, type}) => {
+const Modal = ({ showModal, setShowModal, type }) => {
     const [newPassword, setNewPassword] = useState("");
     const [isChangePasswordSuccess, setIsChangePasswordSuccess] = useState(false);
+    const [error, setError] = useState();
     let navigate = useNavigate();
 
     // First Login
@@ -287,34 +279,16 @@ const Modal = ({showModal, setShowModal, type}) => {
         }
     }
 
-    const keyPress = useCallback(
-        (e) => {
-            if (e.key === 'Escape' && showModal) {
-                setShowModal(false);
-                // setLinkHinhAnh(null);
-            }
-        },
-        [setShowModal, showModal]
-    );
 
-    useEffect(
-        () => {
-            document.addEventListener('keydown', keyPress);
-            return () => document.removeEventListener('keydown', keyPress);
-        },
-        [keyPress]
-    );
-
-
-    // =============== Xử lý xóa danh mục ===============
-
+  // =============== Xử lý xóa danh mục ===============
+ 
     const handleLogout = () => {
         localStorage.removeItem("user_info");
         navigate("../login", {replace: true});
     }
 
     // =============== Change password ===============
-    const userInfo = JSON.parse(localStorage.getItem('user_info'));
+const userInfo =JSON.parse(localStorage.getItem('user_info'));
 
     const [message, setMessage] = useState('');
     const [staffCode, setStaffCode] = useState('');
@@ -324,7 +298,7 @@ const Modal = ({showModal, setShowModal, type}) => {
     const handleChangePassword = (e) => {
         const url = 'http://localhost:8080/user/api/change-password';
         axios
-            .post(url, {staffCode: staffCode, password: password, newPassword: newPass}, {
+            .post(url, { staffCode: staffCode, password: password, newPassword: newPass }, {
                 headers: {
                     'Authorization': `Bearer ${userInfo.accessToken}`
                 }
@@ -344,14 +318,14 @@ const Modal = ({showModal, setShowModal, type}) => {
         navigate("../login", {replace: true});
     }
 
-    useEffect(() => {
-        if (userInfo != null) {
+    useEffect(()=>{
+        if(userInfo!=null){
             setStaffCode(JSON.parse(localStorage.getItem('user_info')).id);
         }
-    }, [localStorage.getItem('user_info')])
-
+    },[localStorage.getItem('user_info')])
+    
     const isChangePasswordNotEmpty = () => {
-        if (password !== null && newPass !== null) {
+        if (password && newPass) {
             return true;
         }
         return false;
@@ -361,26 +335,25 @@ const Modal = ({showModal, setShowModal, type}) => {
         return (
             <>
                 {showModal ? (
-                    <Background ref={modalRef} onClick={closeModal} >
-                        <ModalWrapper showModal={showModal} id="changepassword">
+                    <Background ref={modalRef} >
+                        <ModalWrapper showModal={showModal}>
                             <H2>Change password</H2>
                             {isChangePasswordSuccess ? (
                                 <ModalContent>
-                                    <p>Password has been change successfully!!!</p>
-                                    <Button id="button_close_changepass">
+                                    <p>Your password has been changed successfully!</p>
+                                    <Button>
                                         <ButtonContainer>
-                                            <ButtonClick
-                                                onClick={() => handleCloseSuccess()}>Close</ButtonClick>
+                                            <ButtonClick onClick={() => handleCloseSuccess()}>Close</ButtonClick>
                                         </ButtonContainer>
                                     </Button>
                                 </ModalContent>
                             ) : (
                                 <ModalContent>
-                                    <Form id="form-change_pass_word">
+                                    <Form>
                                         <Label>
                                             <Title>Old password</Title>
                                             <Input
-                                                onChange={(e) => setPassword(e.target.value)}
+                                                onChange={(e)=>setPassword(e.target.value)}
                                                 id="oldPassword"
                                                 name="password"
                                                 type="password"
@@ -391,8 +364,8 @@ const Modal = ({showModal, setShowModal, type}) => {
                                         <Label>
                                             <Title>New password</Title>
                                             <Input
-                                                onChange={(e) => setNewPass(e.target.value)}
-                                                id="newPass"
+                                            onChange={(e)=>setNewPass(e.target.value)}
+                                                id="newPassword"
                                                 name="newPassword"
                                                 type="password"
                                                 className="borderPrimary"
@@ -403,7 +376,6 @@ const Modal = ({showModal, setShowModal, type}) => {
                                     <Button>
                                         <ButtonContainer>
                                             <button
-                                                id="button_change_pass_word"
                                                 type="button"
                                                 className={
                                                     'btn btn-login btn-danger' +
@@ -416,18 +388,15 @@ const Modal = ({showModal, setShowModal, type}) => {
                                             </button>
                                         </ButtonContainer>
                                         <ButtonContainer>
-                                            <ButtonClick
-                                                id="button_cancel_chang_pass"
-                                                onClick={() => setShowModal((prev) => !prev)}>
+                                            <ButtonClick onClick={() => setShowModal((prev) => !prev)}>
                                                 Cancel
                                             </ButtonClick>
                                         </ButtonContainer>
                                     </Button>
                                 </ModalContent>
                             )}
-                            <CloseModalButton aria-label="Close modal"
-                                              onClick={() => setShowModal((prev) => !prev)}>
-                                <CloseOutlined/>
+                            <CloseModalButton aria-label="Close modal" onClick={() => setShowModal((prev) => !prev)}>
+                                <CloseOutlined />
                             </CloseModalButton>
                         </ModalWrapper>
                     </Background>
@@ -440,7 +409,7 @@ const Modal = ({showModal, setShowModal, type}) => {
             <>
                 {showModal ? (
                     <Background ref={modalRef} onClick={closeModal}>
-                        <ModalWrapper showModal={showModal}>
+                        <ModalWrapper showModal={showModal} >
                             <H2>Are you sure?</H2>
 
                             <ModalContent>
@@ -448,12 +417,12 @@ const Modal = ({showModal, setShowModal, type}) => {
                                 <Button>
                                     <ButtonContainer>
                                         <ButtonClick id="btnConfirmLogout"
-                                                     onClick={() => handleLogout()}
-                                        >Logout</ButtonClick>
+                                            onClick={() => handleLogout()}
+                                        >Log out</ButtonClick>
                                     </ButtonContainer>
                                     <ButtonContainer>
                                         <ButtonClick id="bntCancelLogOut"
-                                                     onClick={() => setShowModal(prev => !prev)}
+                                            onClick={() => setShowModal(prev => !prev)}
                                         >Cancel</ButtonClick>
                                     </ButtonContainer>
                                 </Button>
@@ -463,7 +432,7 @@ const Modal = ({showModal, setShowModal, type}) => {
                                 aria-label="Close modal" id="btnCloseConfirmLogout"
                                 onClick={() => setShowModal(prev => !prev)}
                             >
-                                <CloseOutlined/>
+                                <CloseOutlined />
                             </CloseModalButton>
                         </ModalWrapper>
                     </Background>
@@ -480,93 +449,35 @@ const Modal = ({showModal, setShowModal, type}) => {
                     <Background ref={modalRef} >
                         <ModalWrapper showModal={showModal} >
                             <H2>Change password</H2>
-                            {isFirstLoginSuccess ? (
-                                <ModalContent>
-                                    <p>Password has been change successfully!!!</p>
-                                    <Button>
-                                        <ButtonContainer>
-                                            <ButtonClick onClick={() => handleClosetFirstLogin()}>Close</ButtonClick>
-                                        </ButtonContainer>
-                                    </Button>
-                                </ModalContent>
-                            ) : (
-                                <>
-                                    <p className="text-break fs-6  m-3">This is the first time you
-                                                                     logged in.
-                                                                     You have to change your password to continue.</p>
+                            <p style={{ padding: "30px 30px 0px 40px", color: "#333" }}
+                                className="text-break fs-6  m-3">This is the first time you logged in.
+                                <br />
+                                You have to change your password to continue.</p>
 
-                                                             <ModalContent>
-                                                                 <Form name="form-first_login">
-                                                                     <Label>
-                                                                         <Title>New password</Title>
-                                                                         <Input id="newPassword" type="password"
-                                                                                className="borderPrimary"
-                                                                                onChange={(e) => {
-                                                                                    setNewPassword(e.target.value)
-                                                                                    setErrorFirst('')
-                                                                                }}
-                                                                         />
-                                                                     </Label>
-                                                                     <Error id="messageNewPassword">{errorFirst}</Error>
-                                                                 </Form>
+                            <ModalContent>
+                                <Form>
+                                    <Label >
+                                        <Title>New password</Title>
+                                        <Input id="newPassword" type="password" className="borderPrimary"
+                                            onChange={(e) => setNewPassword(e.target.value)}
+                                        />
+                                    </Label>
+                                    {error && <Error id="messageNewPassword">{error.data.message}</Error>}
+                                </Form>
 
-                                                                 <Button>
-                                                                     <ButtonContainer>
-                                                                         <ButtonClick id="btnSaveNewPassword"
-                                                                                      onClick={() => handleFirstLogin(userinfo.username, newPassword)}
-                                                                         >Save</ButtonClick>
-                                                                     </ButtonContainer>
-                                                                 </Button>
-
-                                                             </ModalContent>
-                                </>
-                            )}
-
+                                <Button>
+                                    <ButtonContainer>
+                                        <ButtonClick id="btnSaveNewPassword"
+                                            onClick={() => handleFirstLogin(userinfo.username, newPassword)}
+                                        >Save</ButtonClick>
+                                    </ButtonContainer>
+                                </Button>
+                            </ModalContent>
                         </ModalWrapper>
                     </Background>
                 ) : ""}
             </>
         );
-     //if (type === "firstLogin") {
-    //     return (
-    //         <>
-    //             {showModal ? (
-    //                 <Background ref={modalRef}>
-    //                     <ModalWrapper showModal={showModal}>
-    //                         <H2>Change password</H2>
-    //                         <p className="text-break fs-6  m-3">This is the first time you
-    //                             logged in.
-    //                             You have to change your password to continue.</p>
-    //
-    //                         <ModalContent>
-    //                             <Form>
-    //                                 <Label>
-    //                                     <Title>New password</Title>
-    //                                     <Input id="newPassword" type="password"
-    //                                            className="borderPrimary"
-    //                                            onChange={(e) => {
-    //                                                setNewPassword(e.target.value)
-    //                                                setErrorFirst('')
-    //                                            }}
-    //                                     />
-    //                                 </Label>
-    //                                 <Error id="messageNewPassword">{errorFirst}</Error>
-    //                             </Form>
-    //
-    //                             <Button>
-    //                                 <ButtonContainer>
-    //                                     <ButtonClick id="btnSaveNewPassword"
-    //                                                  onClick={() => handleFirstLogin(userinfo.username, newPassword)}
-    //                                     >Save</ButtonClick>
-    //                                 </ButtonContainer>
-    //                             </Button>
-    //
-    //                         </ModalContent>
-    //                     </ModalWrapper>
-    //                 </Background>
-    //             ) : ""}
-    //         </>
-    //     );
     } else {
         return (
             <></>
